@@ -14,17 +14,13 @@ class App extends Component {
       sendCount: 0,
       imageData:[],
       response: [],
-      bufferphoto : [],
       showphoto: []
-
     }
 
     setInterval(() => {
       this.takePhoto()
     },2000);
-
   }
-
 
   componentDidMount () {
     this.cameraPhoto = new CameraPhoto(this.videoRef.current);
@@ -56,19 +52,17 @@ class App extends Component {
     if (uri && this.state.sendCount != 1) {
       let imageData = this.state.imageData
       imageData.push(this.dataURItoBlob(uri))
-      let bufferphoto = this.state.bufferphoto
-      bufferphoto.push(uri)
+      let showphoto = this.state.showphoto
+      showphoto.push(uri)
       this.setState({ imageData : imageData,
                       sendCount: (this.state.sendCount + 1),
-                      bufferphoto : bufferphoto,
-                      showphoto : bufferphoto
+                      showphoto : showphoto,
                     })
 
                       console.log(imageData)
       if (this.state.sendCount == 1) {
         this.image()
       }
-
     }
   }
 
@@ -88,12 +82,12 @@ class App extends Component {
         this.setState({imageData: [],
                        sendCount: 0,
                        response : res.data.substr(1).slice(0, -1).split(","),
-                       bufferphoto : []
+                       showphoto : []
         });
       }).catch((Error) => {
         this.setState({imageData: [],
                        sendCount: 0,
-                      bufferphoto : []})
+                      showphoto : []})
       })
   }
 
@@ -148,7 +142,7 @@ class App extends Component {
     
         <img
           alt="imgCamera"
-          src={this.state.bufferphoto[0]}
+          src={this.state.showphoto[0]}
         />
     </div>
     )
