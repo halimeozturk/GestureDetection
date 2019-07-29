@@ -13,7 +13,10 @@ class App extends Component {
     this.state = {
       sendCount: 0,
       imageData:[],
-      response: []
+      response: [],
+      bufferphoto : [],
+      showphoto: []
+
     }
 
     setInterval(() => {
@@ -40,7 +43,7 @@ class App extends Component {
         console.error('Camera not started!', error);
       });
   }
-  
+
   takePhoto = () => {
     const config = {
       sizeFactor : 1,
@@ -50,15 +53,22 @@ class App extends Component {
  
     let uri = this.cameraPhoto.getDataUri(config);
 
-    if (uri && this.state.sendCount != 2) {
+    if (uri && this.state.sendCount != 1) {
       let imageData = this.state.imageData
       imageData.push(this.dataURItoBlob(uri))
+      let bufferphoto = this.state.bufferphoto
+      bufferphoto.push(uri)
       this.setState({ imageData : imageData,
-                      sendCount: (this.state.sendCount + 1)})
+                      sendCount: (this.state.sendCount + 1),
+                      bufferphoto : bufferphoto,
+                      showphoto : bufferphoto
+                    })
 
-      if (this.state.sendCount == 2) {
+                      console.log(imageData)
+      if (this.state.sendCount == 1) {
         this.image()
       }
+
     }
   }
 
@@ -77,11 +87,13 @@ class App extends Component {
       }).then((res)=>{
         this.setState({imageData: [],
                        sendCount: 0,
-                       response : res.data.substr(1).slice(0, -1).split(",")
+                       response : res.data.substr(1).slice(0, -1).split(","),
+                       bufferphoto : []
         });
       }).catch((Error) => {
         this.setState({imageData: [],
-                       sendCount: 0})
+                       sendCount: 0,
+                      bufferphoto : []})
       })
   }
 
@@ -115,24 +127,29 @@ class App extends Component {
        <div class="status-container">
         <div>
           <Progress type="circle" percent={(this.state.response[0] * 100).toFixed(2)} strokeWidth={13}/>
-          <h2> HAPPY </h2>
-        </div>
-
-        <div>
-          <Progress type="circle" percent={(this.state.response[1] * 100).toFixed(2)} strokeWidth={13} />
           <h2> ANGRY </h2>
         </div>
 
         <div>
+          <Progress type="circle" percent={(this.state.response[1] * 100).toFixed(2)} strokeWidth={13} />
+          <h2> SUPRISE </h2>
+        </div>
+
+        <div>
           <Progress type="circle" percent={(this.state.response[2] * 100).toFixed(2)} strokeWidth={13} />
-          <h2> NATURAL </h2>
+          <h2> HAPPY </h2>
         </div>
 
         <div>
           <Progress type="circle" percent={(this.state.response[3] * 100).toFixed(2)} strokeWidth={13} />
-          <h2> CONFUSED </h2>
+          <h2> NATURAL </h2>
         </div>
       </div>
+    
+        <img
+          alt="imgCamera"
+          src={this.state.bufferphoto[0]}
+        />
     </div>
     )
   }
