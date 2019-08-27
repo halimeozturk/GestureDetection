@@ -6,7 +6,7 @@ git clone https://github.com/halimeozturk/FaceApp.git
 
 <h3>Install dependencies</h3>
 
-cd FaceApp
+cd FaceApp </br>
 npm install
 
 <h3>Building</h3>
