@@ -1,4 +1,4 @@
-<h1>Building the Mindtree</h1>
+<h1>Building the FadeApp</h1>
 
 <h3>Grab latest sources:</h3>
 
