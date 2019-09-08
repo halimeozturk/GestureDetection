@@ -1,6 +1,6 @@
 import React , {Component} from 'react';
 import './App.css';
-import CameraPhoto, { FACING_MODES, IMAGE_TYPES } from 'jslib-html5-camera-photo';
+import CameraPhoto, { FACING_MODES} from 'jslib-html5-camera-photo';
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 import axios from 'axios';
